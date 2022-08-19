@@ -4,8 +4,13 @@ import axios from 'axios'
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-
-
+axios.get(`https://api.github.com/users/${KoltenBramall}`)
+.then(resp => {
+ console.log(resp.data)
+})
+.catch(err => {
+  console.error(err);
+})
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -30,30 +35,25 @@ import axios from 'axios'
     user, and adding that card to the DOM.
 */
 
-const followersArray = ['Kobramall','tetondan',
-  'dustinmyers',
-  'justsml',
-  'luishrd',
-  'bigknell'];
+const followersArray = [];
 
 function cardMaker(Obj){
-  const cardWrapper = document.createElement("div")
-  cardWrapper.classList.add("card")
+  const carWrapper = document.createElement("div")
+  carWrapper.classList.add("card")
   const cardImg = document.createElement("img");
   const cardInfo = document.createElement("div");
-  cardInfo.classList.add("card-info");
   const cardName = document.createElement("h3");
   cardName.classList.add("name");
-  const cardUsername = document.createElement("p");
   cardUsername.classList.add("username");
+  const cardUsername = document.createElement("p");
   const cardLocation = document.createElement("p");
   const cardProfile = document.createElement("p");
-  const profileAnchor = document.createElement("a");
+  const ProfileAnchor = document.createElement("a");
   const cardFollowers = document.createElement("p");
   const cardFollowing = document.createElement("p");
   const cardBio = document.createElement("p");
 
-  cardProfile.appendChild(profileAnchor);
+  cardProfile.appendChild(ProfileAnchor);
   cardInfo.appendChild(cardName);
   cardInfo.appendChild(cardUsername);
   cardInfo.appendChild(cardLocation);
@@ -61,38 +61,7 @@ function cardMaker(Obj){
   cardInfo.appendChild(cardFollowers);
   cardInfo.appendChild(cardFollowing);
   cardInfo.appendChild(cardBio);
-  cardWrapper.appendChild(cardImg);
-  cardWrapper.appendChild(cardInfo);
-
-  cardImg.src = Obj.avatar_url;
-  cardName.textContent = Obj.name;
-  cardUsername.textContent = Obj.login;
-  cardLocation.textContent = Obj.location
-  cardProfile.textContent ="Profile"
-  profileAnchor.textContent = "Link to profile";
-  profileAnchor.href = Obj.html_url;
-  cardFollowers.textContent = `Followers: ${Obj.followers}`
-  cardFollowing.textContent = `Following: ${Obj.following}`
-  cardBio.textContent = Obj.bio;
-
-  return cardWrapper;
 }
-
-
-function getGitCard(username) {
-  axios.get(`https://api.github.com/users/${username}`)
-  .then(resp => {
-     document.querySelector('.cards').appendChild(cardMaker(resp.data));
-  })
-  .catch(err => {
-    console.error(err);
-  })
-  };
-
-  followersArray.forEach(user =>{
-    getGitCard(user);
-  })
-  
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
